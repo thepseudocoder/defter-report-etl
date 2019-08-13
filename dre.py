@@ -12,22 +12,25 @@ processList = [illegalLine, addAccountName, absAmount, deleteSumCol]
 # Each process takes a csv line and returns a processes line to be
 # appended to the result file.
 
+# the first arg is the line to be processed
+# the secong arg is account name
+
 # If a processed line's result is Null, processes return 0.
 
 # determine if the line is empty or a seperator line
-def illegalLine(line):
+def illegalLine(*args):
         pass
 
 # adds account name to the first column
-def addAccountName(line):
+def addAccountName(*args):
         pass
 
 # takes the absolute value of amount column 
-def absAmount(line):
+def absAmount(*args):
         pass
 
 # deletes the last column (total sum)
-def deleteSumCol(line):
+def deleteSumCol(*args):
         pass
 
 # Take a workbook and return csv string
