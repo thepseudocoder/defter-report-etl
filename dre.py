@@ -10,7 +10,7 @@ from os import walk
 #### Some variables
 
 # The list of categories to be discarded from final 
-DeleteCategories = ["TRANSFER", "ÖDEME"]
+OmittedCategories = ["TRANSFER", "ÖDEME"]
 
 # First # of rows to be omitted
 OmitFirstRows = 3
@@ -82,13 +82,14 @@ def deleteSumCol(*args):
 	return row
 
 # delete the row if the category is listed in deleteCategories
-def deleteIfUnwatedCategory(*args):
+# note: changing the ProcessList may broke this function
+# since it exclusively checks the value of 2nd cell
+def omitIfUnwantedCategory(*args):
 	row = args[0]
 	cell_list = row.split(",")
 	
-	for item in cell_list:
-		if item in DeleteCategories:
-			return 0
+	if cell_list[1] in OmittedCategories:
+		return 0
 
 	return row
 
@@ -133,6 +134,7 @@ def deriveAccountName(filePath):
 # The list of functions to be applied each row. Can be modified.
 ProcessList = [
 	omitRow,
+	omitIfUnwantedCategory,
 	absAmount,
 	convertDates, 
 	deleteSumCol,
