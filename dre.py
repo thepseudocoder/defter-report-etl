@@ -6,6 +6,7 @@ import os
 import datetime
 from os import walk
 
+
 #### Some variables
 
 # The list of categories to be discarded from final 
@@ -162,7 +163,9 @@ if __name__ == '__main__':
 		
 		# account name is derived from the filename
 		accountname = deriveAccountName(each_file)
+    
 		print("Processing account: " + accountname)
+
 		rowNum = 0
 
 		for row in rows:
