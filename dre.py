@@ -9,11 +9,14 @@ from os import walk
 
 #### Some variables
 
-# The list of categories to be discarded from final 
+# The list of categories to be omitted 
 OmittedCategories = ["TRANSFER", "ÖDEME"]
 
 # First # of rows to be omitted
 OmitFirstRows = 3
+
+# Final Header
+FinalHeader = "HESAP,TARİH,İŞLEM TİPİ,AÇIKLAMA,KATEGORİ,MİKTAR\n"
 
 #### ETL processes ####
 
@@ -34,7 +37,7 @@ def omitRow(*args):
 	cell_list = row.split(",")
 	empty_cell_count = cell_list.count("")
 
-	# first 3 rows of the file are automatically omitted
+	# first few rows of the file are automatically omitted
 	if row_num < OmitFirstRows:
 		return 0
 	# if there are less than 6 cells, then its probably an empty row
@@ -157,7 +160,7 @@ if __name__ == '__main__':
 		if "~$" in item or item.split("\\")[-1][0] == ".":
 			filelist.remove(item)
 
-	resultCSV = ""
+	resultCSV = FinalHeader
 
 	for each_file in filelist:
 		output = convertCSV(each_file)
