@@ -4,11 +4,15 @@ import io
 
 ## ETL process list
 # The list of functions to be applied each line. Can be modified.
+ProcessList = [illegalLine, 
+                addAccountName, 
+                absAmount, 
+                deleteSumCol]
+# The list of categories to be discarded from final 
+DeleteCategories = ["TRANSFER"]
 
-processList = [illegalLine, addAccountName, absAmount, deleteSumCol]
+#### ETL processes ####
 
-
-## ETL processes ##
 # Each process takes a csv line and returns a processes line to be
 # appended to the result file.
 
@@ -32,6 +36,12 @@ def absAmount(*args):
 # deletes the last column (total sum)
 def deleteSumCol(*args):
         pass
+
+# delete the line if the category is listed in deleteCategories
+def deleteIfUnwatedCategory(*args):
+        pass
+
+#######################
 
 # Take a workbook and return csv string
 def convertCSV(workbookpath):
