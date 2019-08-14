@@ -10,7 +10,7 @@ from os import walk
 #### Some variables
 
 # The list of categories to be discarded from final 
-DeleteCategories = ["TRANSFER"]
+DeleteCategories = ["TRANSFER", "ÖDEME"]
 
 # First # of rows to be omitted
 OmitFirstRows = 3
@@ -127,7 +127,7 @@ def convertCSV(workbookpath):
 
 # Get account name from the file path
 def deriveAccountName(filePath):
-	return filePath.split(".")[0].split("\\")[-1]
+	return filePath.split(".")[0].split("\\")[-1].split("-")[0].strip()
 
 ## ETL process list
 # The list of functions to be applied each row. Can be modified.
@@ -190,3 +190,4 @@ if __name__ == '__main__':
 	with open('result.csv', 'w', newline="", encoding="utf-8") as f:
 		f.write(resultCSV)
 	
+	print("Successfully wrote file: " + os.getcwd() + "\\result.csv")
