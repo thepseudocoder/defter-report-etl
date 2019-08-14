@@ -2,8 +2,10 @@ import xlrd
 import csv
 import io
 import sys
-from os import walk
 import os
+import datetime
+from os import walk
+
 
 #### Some variables
 
@@ -90,6 +92,23 @@ def deleteIfUnwatedCategory(*args):
 
 	return row
 
+# convert date integers to dates
+# note: changing the ProcessList may broke this function
+# since it exclusively converts the value of 0th cell
+def convertDates(*args):
+	row = args[0]
+	cell_list = row.split(",")
+
+	datefloat = float(cell_list[0])
+	adjusteddate = (datefloat - 25569) * 86400.0
+
+	resultdate = datetime.datetime.utcfromtimestamp(adjusteddate)
+	cell_list[0] = resultdate.strftime('%Y-%m-%d')
+
+	row = ','.join(map(str,cell_list))
+	
+	return row
+
 #######################
 
 # Take a workbook and return csv string
@@ -114,7 +133,8 @@ def deriveAccountName(filePath):
 # The list of functions to be applied each row. Can be modified.
 ProcessList = [
 	omitRow,
-	absAmount, 
+	absAmount,
+	convertDates, 
 	deleteSumCol,
 	addAccountName
 	]
@@ -143,7 +163,9 @@ if __name__ == '__main__':
 		
 		# account name is derived from the filename
 		accountname = deriveAccountName(each_file)
-		print("account name: " + accountname)
+    
+		print("Processing account: " + accountname)
+
 		rowNum = 0
 
 		for row in rows:
@@ -167,7 +189,4 @@ if __name__ == '__main__':
 	
 	with open('result.csv', 'w', newline="", encoding="utf-8") as f:
 		f.write(resultCSV)
-
-
-
 	
